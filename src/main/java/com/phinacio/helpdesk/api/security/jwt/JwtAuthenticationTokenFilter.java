@@ -1,6 +1,7 @@
 package com.phinacio.helpdesk.api.security.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +21,10 @@ import java.io.IOException;
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private UserDetailsService userDetailsService;
 
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 

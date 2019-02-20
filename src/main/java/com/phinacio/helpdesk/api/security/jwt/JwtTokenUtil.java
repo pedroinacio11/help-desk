@@ -1,8 +1,6 @@
 package com.phinacio.helpdesk.api.security.jwt;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
