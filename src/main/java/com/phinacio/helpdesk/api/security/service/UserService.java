@@ -1,4 +1,4 @@
-package com.phinacio.helpdesk.api.service;
+package com.phinacio.helpdesk.api.security.service;
 
 import com.phinacio.helpdesk.api.entity.User;
 import org.springframework.data.domain.Page;

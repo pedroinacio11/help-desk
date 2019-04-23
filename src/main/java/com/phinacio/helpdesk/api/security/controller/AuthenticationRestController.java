@@ -1,7 +1,7 @@
 package com.phinacio.helpdesk.api.security.controller;
 
 import com.phinacio.helpdesk.api.security.jwt.JwtTokenUtil;
-import com.phinacio.helpdesk.api.service.UserService;
+import com.phinacio.helpdesk.api.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;

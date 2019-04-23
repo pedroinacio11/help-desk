@@ -2,7 +2,6 @@ package com.phinacio.helpdesk.api.security.service;
 
 import com.phinacio.helpdesk.api.entity.User;
 import com.phinacio.helpdesk.api.security.jwt.JwtUserFactory;
-import com.phinacio.helpdesk.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

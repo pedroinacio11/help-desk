@@ -2,7 +2,7 @@ package com.phinacio.helpdesk.api.service.impl;
 
 import com.phinacio.helpdesk.api.entity.User;
 import com.phinacio.helpdesk.api.repository.UserRepository;
-import com.phinacio.helpdesk.api.service.UserService;
+import com.phinacio.helpdesk.api.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
