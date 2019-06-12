@@ -3,8 +3,10 @@ package com.phinacio.helpdesk.api.controller;
 import com.phinacio.helpdesk.api.entity.User;
 import com.phinacio.helpdesk.api.response.Response;
 import com.phinacio.helpdesk.api.security.service.UserService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,5 +67,75 @@ public class UserController {
             result.addError(new ObjectError("User", "Email no information"));
         }
     }
+
+    @PutMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Response<User>> update (HttpServletRequest request, @RequestBody User user, BindingResult result) {
+
+        Response<User> response = new Response<User>();
+        try{
+            validateUpdateUser(user, result);
+            if(result.hasErrors()){
+                result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            User userPersited = (User) userService.createOrUpdate(user);
+            response.setData(userPersited);
+
+        } catch (Exception e) {
+            response.getErrors().add(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+        return ResponseEntity.ok(response);
+    }
+
+    private void validateUpdateUser(User user, BindingResult result){
+
+        if(user.getId() == null){
+            result.addError(new ObjectError("User", "Id no information"));
+        }
+
+        if(user.getEmail() == null){
+            result.addError(new ObjectError("User", "Email no information"));
+        }
+    }
+
+    @GetMapping(value = "{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Response<User>> findById(@PathVariable("id") String id ) {
+        Response<User> response = new Response<User>();
+        User user = userService.findById(id);
+        if(user == null){
+            response.getErrors().add("Register not found id: "+ id);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        response.setData(user);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(value = "{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Response<String>> delete(@PathVariable("id") String id ) {
+        Response<String> response = new Response<String>();
+        User user = userService.findById(id);
+        if(user == null){
+            response.getErrors().add("Register not found id: "+ id);
+            return ResponseEntity.badRequest().body(response);
+        }
+        userService.delete(id);
+        return ResponseEntity.ok(new Response<String>());
+    }
+
+     @GetMapping(value = "{page}/{count}")
+     @PreAuthorize("hasAnyRole('ADMIN')")
+     public ResponseEntity<Response<Page<User>>> findAll(@PathVariable int page, @PathVariable int count){
+         Response<Page<User>> response = new Response<Page<User>>();
+         Page<User> users = userService.findAll(page, count);
+         response.setData(users);
+         return ResponseEntity.ok(response);
+     }
 
 }
