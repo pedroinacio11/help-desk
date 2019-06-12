@@ -19,6 +19,7 @@ public class AuthenticationRestController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
